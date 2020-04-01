@@ -1,0 +1,113 @@
+html {
+/*
+<link rel="stylesheet" href="background.css">
+<title>Background Information</title>
+<div id="left"></div>
+<div id="right"></div>
+<div id="top"></div>
+<div id="bottom"></div>
+    put above lines at top of each html
+*/    
+background-color: floralwhite;
+font-family: "Times New Roman", Times, serif;
+color: black;
+}
+/* Define background color, font style, font color, and page border. */
+
+
+h1{
+    padding: 1px;
+    text-align: center;
+    font-size: 26px;
+}
+/* Use h1 for a page header. */
+
+
+body {
+    font-size: 16px;
+}
+/* Define body font size.*/
+
+
+p.pad {
+    padding-left: 4px;
+}
+/* Use <p class="pad">...</p> for paragraphs to move further off of left border. */
+
+
+p.em {
+    font-weight: bold;
+    font-style: italic;
+}
+/* Use <p class="em">...</p> for paragraphs to emphasize the text. */
+
+
+table, td {
+    border: 1px solid black;
+    border-collapse:collapse;
+    font-size: 16px;
+    position: relative;
+    text-align: center;
+}
+/* Set parameters for tables. Use tr for rows and td for regular elements. */
+
+
+th {
+  border: 1px solid black;
+  border-bottom: double;
+  font-weight:bold;
+  font-size: 18px;
+  position: relative;
+  text-align: center;
+}
+/* Use th for header elements of table. */
+
+
+ul.circle {
+  list-style-type: circle;
+}
+/* Use <ul class="circle">
+  <li>...</li>
+  </ul> 
+for unordered lists. */
+
+
+ol.roman {
+  list-style-type: upper-roman;
+}
+/* Use <ol class="roman">
+  <li>...</li>
+  </ol> 
+for ordered lists. */
+
+
+div.fixed{
+    background-color: ghostwhite;
+    padding: 5px;
+    text-align: center;
+    font-size: 12px;
+    position: fixed;
+    bottom: 1%;
+    right: 1%;
+}
+/* Use <div class="fixed">...</div> for a footer element that stays in the bottom right. */
+
+
+#top, #bottom, #left, #right {
+	background: coral;
+	position: fixed;
+	}
+	#left, #right {
+		top: 0; bottom: 0;
+		width: 5px;
+		}
+		#left { left: 0; }
+		#right { right: 0; }
+		
+	#top, #bottom {
+		left: 0; right: 0;
+		height: 5px;
+		}
+		#top { top: 0; }
+		#bottom { bottom: 0; }
+/* Page Borders Improved*/
