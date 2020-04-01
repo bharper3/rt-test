@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+    <link rel="stylesheet" href="background.css">
+<title>Background Information</title>
+
+<div id="left"></div>
+<div id="right"></div>
+<div id="top"></div>
+<div id="bottom"></div>
+    
+   <head>
+<meta charset="utf-8">
+
+<!-- meta viewport let's you define how it should look on mobile -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+.sliderwidth {width: 180px;}
+.bigtext {font:bold 20px serif; fill:white;}
+.smalltext {font:normal 14px serif; fill:white;}
+.smalltextred {font:normal 14px serif; fill:red;}
+.button {background-color: #0000FF; border:2px solid yellow; border-radius: 8px; color:yellow; padding:4px; text-align:center; font-size:20px;}
+.fixedWidth {display:inline-block; width:130px;}
+</style>
+</head>
+
+<body>
+    <h1>Intensity of Sunlight</h1>
+<div>
+
+<!-- viewBox attribute defines the coordinate system within the svg -->
+<svg style="position:relative; left:0px; top:0px; background-color:rgb(0,0,0)" width="500" height="300" viewBox="0 0 500 300">
+   	 <g id="csflatmap" ">    
+	    <rect x="75" y="0" width="400" height="250" fill="rgb(0,0,255)" stroke="none" />
+		<!-- Draw in Labels and Reference Lines-->
+		<text class="bigtext" x="20" y="172" fill="white" transform="rotate(-90 25 172)">Declination</text>
+		<text class="bigtext" x="195" y="285" >Right Ascension</text>
+		<!-- mild exaggeration of 23.5 scale -->
+		<text class="smalltext" x="100" y="122">Celestial Equator</text> 
+		<line x1="75" y1="125" x2="475" y2="125" stroke="white" stroke-width="2"/>
+		<g stroke="white" stroke-width="1" stroke-dasharray="10,5">
+		   <line x1="75" y1="170" x2="475" y2="170" />
+		   <line x1="75" y1="80" x2="475" y2="80" />
+		<g>
+		<text class="smalltext" x="100" y="122">Celestial Equator</text> 
+		<line x1="75" y1="125" x2="475" y2="125" stroke="white" stroke-width="2"/>
+		<g fill="white">
+			<text x="30" y="174">-23.5°</text>
+			<text x="30" y="129">&nbsp;&nbsp;&nbsp;0°</text>
+			<text x="30" y="85">+23.5°</text>
+		</g>
+		<g fill="white">
+		  <text x="70" y="270">
+		  <tspan>24</tspan>
+		  <tspan baseline-shift="super">h</tspan>
+		  </text>
+		   <text x="170" y="270">
+		  <tspan>18</tspan>
+		  <tspan baseline-shift="super">h</tspan>
+		  </text>
+		   <text x="270" y="270">
+		  <tspan>12</tspan>
+		  <tspan baseline-shift="super">h</tspan>
+		  </text>
+		   <text x="370" y="270">
+		  <tspan>6</tspan>
+		  <tspan baseline-shift="super">h</tspan>
+		  </text>
+		   <text x="470" y="270">
+		  <tspan>0</tspan>
+		  <tspan baseline-shift="super">h</tspan>
+		  </text>
+		</g>
+     </g>  
+	  <!-- Draw in Ecliptic and Sun-->
+	 	 <defs>
+              <radialGradient id="limbDarkening">
+                  <stop offset="10%" stop-color="yellow" />
+                  <stop offset="95%" stop-color="goldenrod" />
+              </radialGradient>
+         </defs>
+		 <path id="ecliptic" stroke="red" stroke-width="2" fill="none" d="M 75 125  C 155 185, 195 185, 275 125 C 355 65, 395 65, 475 125" />
+		 <text class="smalltextred">
+			   <textPath href="#ecliptic" startOffset="6.5%" stroke="red"><tspan dy="-3">Ecliptic</tspan></textpath>
+		 </text>
+	     <circle id="Sun" cx="374" cy="79" r="10" fill="url('#limbDarkening')" stroke="none" />   
+</svg> 
+<br \>
+<div class="bigtext">Date:&nbsp;<span id="dateValue" class="fixedWidth">June 21</span>&nbsp;&nbsp;&nbsp;
+<button id="button" class="button" onclick="toggleAnimation()">Animate</button>
+</div>
+ 
+
+<script type="text/javascript">
+	var day=91.0;
+	var iday=172;
+	var sunx, suny; 
+	
+	var movSun = document.getElementById("Sun");
+	var button = document.getElementById("button");
+	var dateValue = document.getElementById("dateValue");
+	var period = 15.0;      // a complete cycle in 15 seconds
+	var rate = 365/(period*1000.0);   
+	var prevTime = null;
+    var requestID = null;
+	
+	updateCoords(day);
+	updateDate(iday);
+	
+function animationCallback(time) {
+
+  if (prevTime !== null) {
+    var delta = time - prevTime; 
+    day = (day + rate*delta)%365;
+    updateCoords(day);
+	iday=parseInt(day)+81;
+	if(iday>365){
+	    iday=iday-365;
+	}
+	updateDate(iday);
+  }
+  prevTime = time;
+  requestID = window.requestAnimationFrame(animationCallback);
+}
+function updateCoords(day){
+	sunx = 475.0-(400.0*day/365);
+	suny = 125.0 -(46.0*Math.sin(2.0*Math.PI*day/365)); 
+	sunx=sunx.toFixed(1);
+	suny=suny.toFixed(1);
+	movSun.setAttribute("cx",sunx); 
+    movSun.setAttribute("cy",suny); 
+}
+function updateDate(iday){
+	var iday, cmonth, cday, dateString;
+	var dayCount = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+	var months=["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "Novemeber", "December"];
+	for (i = 0; i < 12; i++){
+		if (iday > dayCount[i]){
+			cmonth=months[i];
+			cday=iday-dayCount[i];
+		}
+	}
+	cmonth=cmonth.toString();
+	cday=cday.toString();
+	dateString=cmonth + " "+ cday;
+	dateValue.textContent=dateString;
+}
+function toggleAnimation() {
+
+  if (requestID !== null) {
+    window.cancelAnimationFrame(requestID);
+    requestID = null;
+    button.textContent = "Animate";
+	} else {
+    requestID = window.requestAnimationFrame(animationCallback);
+    prevTime = null;
+    button.textContent = "Pause";
+  }
+
+}
+</script>
+                   
+    <p> The apparent path of the sun on the celestial sphere is known as the ecliptic. The shape of the ecliptic is due to Earth's axis of rotation being titled 23.5˚ with respect to the plane of its orbit. The sun crosses the celestial equator on both equinoxes (March 21 and September 21) but can be as much as 23.5˚ above the celestial equator on the summer solstice (June 21) and 23.5˚ below on the winter solstice (December 21).</p>
+                                
+</body>
+</html>
