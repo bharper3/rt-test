@@ -1,2 +1,2 @@
 # rt-test
-https://github.com/bharper3/rt-test/ecliptic/index.html
+https://bharper3.github.io/rt-test/ecliptic/index.html
